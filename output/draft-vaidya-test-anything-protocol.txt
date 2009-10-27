@@ -1,0 +1,560 @@
+
+
+
+Network Working Group                                     G. Vaidya, Ed.
+Internet-Draft                                                M. Schwern
+Intended status: Informational                          October 28, 2009
+Expires: May 1, 2010
+
+
+                    The Test Anything Protocol (TAP)
+                 draft-vaidya-test-anything-protocol-00
+
+Status of this Memo
+
+   By submitting this Internet-Draft, each author represents that any
+   applicable patent or other IPR claims of which he or she is aware
+   have been or will be disclosed, and any of which he or she becomes
+   aware will be disclosed, in accordance with Section 6 of BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF), its areas, and its working groups.  Note that
+   other groups may also distribute working documents as Internet-
+   Drafts.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   The list of current Internet-Drafts can be accessed at
+   http://www.ietf.org/ietf/1id-abstracts.txt.
+
+   The list of Internet-Draft Shadow Directories can be accessed at
+   http://www.ietf.org/shadow.html.
+
+   This Internet-Draft will expire on May 1, 2010.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 1]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+Abstract
+
+   The Test Anything Protocol (TAP) is a protocol to allow communication
+   between unit tests and a test harness.  It allows individual tests
+   (TAP producers) to communicate test results to the testing harness in
+   a language-agnostic way.  Tests can indicate success, failure, as
+   well as mark tests as unimplemented or skipped, and to provide
+   additional information to aid in debugging of failed tests.  Unlike
+   other testing systems, it can indicate missing tests and duplicated
+   tests.
+
+   This specification defines TAP version 13.
+
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1.  Requirements notation  . . . . . . . . . . . . . . . . . .  3
+   2.  Definitions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Producers and consumers  . . . . . . . . . . . . . . . . . . .  6
+   4.  Security Considerations  . . . . . . . . . . . . . . . . . . .  7
+   5.  Normative References . . . . . . . . . . . . . . . . . . . . .  8
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
+   Intellectual Property and Copyright Statements . . . . . . . . . . 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 2]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+1.  Introduction
+
+   The Test Anything Protocol (TAP) describes a standard format for
+   testing suites to use.  This format provides both human and machine-
+   readable information on which tests were run, whether they were
+   successful or failed, as well as other information which might be
+   useful in tracing the cause of the failure.  Being machine-readable
+   allows this information to be easily parsed by an automated testing
+   harness.  Test results may then be summarized and analyzed.  Being
+   human-readable allows the results of a testing system to be read
+   manually; this is useful for quickly determining whether individual
+   tests pass and to aid in debugging the test system itself.
+
+   TAP has been in use since 1987 by Perl.  The format is very stable,
+   and capable of providing data on failed tests to help in debugging.
+
+1.1.  Requirements notation
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in [RFC2119].
+
+   The grammatical rules in this document are following ABNF and are to
+   be interpreted as described in [RFC5234].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 3]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+2.  Definitions
+
+   Test:
+         A piece of software which determines if a particular facility
+         or component is functional.
+
+   Test result:
+         The encoding in TAP of the result of a single test.  It may
+         have exactly one TAP result directive.
+
+   Test set:
+         Zero or more test results with exactly one plan.  A test set
+         can be determined to have failed or passed.
+
+   Test suite:
+         A collection of test sets.
+
+   TAP document:
+         One test set which parses correctly as defined in this
+         document.  Future expansion may allow multiple test sets to be
+         contained in a single TAP document, allowing an entire test
+         suite to be stored as a single TAP document.
+
+   Plan:
+         The number of tests which are expected to pass in a single test
+         set.
+
+   Directive:
+         A directive changes the meaning of a test result; it is
+         commonly used to indicate that a failing test should be
+         reported as passing (TODO) or that a passing test should be
+         tagged as suspicious (SKIP).
+
+   Reason:
+         A reason explains why a directive was necessary.
+
+   Description:
+         A description says what a test result is testing.
+
+   Producer:
+         A producer is a thing which can generate a valid TAP document.
+
+   Consumer:
+         A consumer is a thing which can parse and interpret a TAP
+         document.
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 4]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+   Filter:
+         A filter a piece of software which consumes a TAP document, and
+         produces a new TAP document based in some way on the TAP input.
+         For example, it can reproduce the TAP document exactly,
+         normalize the formatting, combine multiple documents, or
+         summarize the result of tests as a new TAP document.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 5]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+3.  Producers and consumers
+
+   TBD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 6]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+4.  Security Considerations
+
+   None.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 7]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+5.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234, January 2008.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 8]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+Authors' Addresses
+
+   Gaurav Vaidya (editor)
+
+
+   Michael G Schwern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 9]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+Full Copyright Statement
+
+   Copyright (C) The IETF Trust (2009).
+
+   This document is subject to the rights, licenses and restrictions
+   contained in BCP 78, and except as set forth therein, the authors
+   retain all their rights.
+
+   This document and the information contained herein are provided on an
+   "AS IS" basis and THE CONTRIBUTOR, THE ORGANIZATION HE/SHE REPRESENTS
+   OR IS SPONSORED BY (IF ANY), THE INTERNET SOCIETY, THE IETF TRUST AND
+   THE INTERNET ENGINEERING TASK FORCE DISCLAIM ALL WARRANTIES, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF
+   THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+   WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+Intellectual Property
+
+   The IETF takes no position regarding the validity or scope of any
+   Intellectual Property Rights or other rights that might be claimed to
+   pertain to the implementation or use of the technology described in
+   this document or the extent to which any license under such rights
+   might or might not be available; nor does it represent that it has
+   made any independent effort to identify any such rights.  Information
+   on the procedures with respect to rights in RFC documents can be
+   found in BCP 78 and BCP 79.
+
+   Copies of IPR disclosures made to the IETF Secretariat and any
+   assurances of licenses to be made available, or the result of an
+   attempt made to obtain a general license or permission for the use of
+   such proprietary rights by implementers or users of this
+   specification can be obtained from the IETF on-line IPR repository at
+   http://www.ietf.org/ipr.
+
+   The IETF invites any interested party to bring to its attention any
+   copyrights, patents or patent applications, or other proprietary
+   rights that may cover technology that may be required to implement
+   this standard.  Please address the information to the IETF at
+   ietf-ipr@ietf.org.
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                 [Page 10]
+

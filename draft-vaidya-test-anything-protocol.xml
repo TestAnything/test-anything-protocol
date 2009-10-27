@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Based on http://xml.resource.org/authoring/sample.xml -->
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+    <!ENTITY rfc2119 PUBLIC '' 
+      'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
+    <!ENTITY rfc5234 PUBLIC '' 
+      'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml'>
+]>
+
+<rfc
+    category="info" 
+    ipr="full3978"
+    docName="draft-vaidya-test-anything-protocol-00"
+>
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc toc="yes" ?>
+<?rfc symrefs="yes" ?>
+<?rfc sortrefs="yes"?>
+<?rfc iprnotified="no" ?>
+<?rfc strict="yes" ?>
+
+    <front>
+        <title>The Test Anything Protocol (TAP)</title>
+        <author initials='G.G.' surname="Vaidya" fullname='Gaurav Vaidya' role="editor">
+            <organization/>
+        </author>
+        <author initials='M.G.' surname="Schwern" fullname='Michael G Schwern'>
+            <organization/>
+        </author>
+        
+        <date/>
+        <abstract>
+            <t>
+            The Test Anything Protocol (TAP) is a protocol to allow communication 
+            between unit tests and a test harness. It allows individual tests (TAP 
+            producers) to communicate test results to the testing harness in a 
+            language-agnostic way. Tests can indicate success, failure, as well 
+            as mark tests as unimplemented or skipped, and to provide additional 
+            information to aid in debugging of failed tests. Unlike other testing 
+            systems, it can indicate missing tests and duplicated tests. 
+            </t>
+
+            <t>
+            This specification defines TAP version 13.
+            </t>
+        </abstract>
+    </front>
+
+    <middle>
+        <section title="Introduction">
+            <t>
+            The Test Anything Protocol (TAP) describes a standard format for testing
+            suites to use. This format provides both human and machine-readable 
+            information on which tests were run, whether they were successful or 
+            failed, as well as other information which might be useful in tracing 
+            the cause of the failure. Being machine-readable allows this information 
+            to be easily parsed by an automated testing harness. Test results may 
+            then be summarized and analyzed. Being human-readable allows the results 
+            of a testing system to be read manually; this is useful for quickly 
+            determining whether individual tests pass and to aid in debugging the 
+            test system itself. 
+            </t>
+
+            <t>
+            TAP has been in use since 1987 by Perl. The format is very stable, and 
+            capable of providing data on failed tests to help in debugging.
+            </t>
+
+            <section title="Requirements notation">
+                <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
+                "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
+                and "OPTIONAL" in this document are to be interpreted as
+                described in <xref target="RFC2119"/>.</t>
+
+                <t>
+                The grammatical rules in this document are following ABNF and are to be 
+                interpreted as described in <xref target="RFC5234"/>.
+                </t>
+            </section>
+        </section>
+
+        <section title="Definitions">
+            <t>
+            <list style="hanging" hangIndent="6">
+                <t hangText="Test:">
+		<vspace/>
+                A piece of software which determines if a particular facility or 
+                component is functional. 
+                </t>
+
+                <t hangText="Test result:">
+		<vspace/>
+                The encoding in TAP of the result of a single test. It may have 
+                exactly one TAP result directive. 
+                </t>
+
+                <t hangText="Test set:">
+		<vspace/>
+                Zero or more test results with exactly one plan. A test set can 
+                be determined to have failed or passed. 
+                </t>
+
+                <t hangText="Test suite:">
+		<vspace/>
+                A collection of test sets. 
+                </t>
+
+                <t hangText="TAP document:">
+		<vspace/>
+                One test set which parses correctly as defined in this document. 
+                Future expansion may allow multiple test sets to be contained 
+                in a single TAP document, allowing an entire test suite to be 
+                stored as a single TAP document. 
+                </t>
+
+                <t hangText="Plan:">
+		<vspace/>
+                The number of tests which are expected to pass in a single test set. 
+                </t>
+
+                <t hangText="Directive:">
+		<vspace/>
+                A directive changes the meaning of a test result; it is commonly used 
+                to indicate that a failing test should be reported as passing (TODO) 
+                or that a passing test should be tagged as suspicious (SKIP). 
+                </t>
+
+                <t hangText="Reason:">
+		<vspace/>
+                A reason explains why a directive was necessary. 
+                </t>
+
+                <t hangText="Description:">
+		<vspace/>
+                A description says what a test result is testing. 
+                </t>
+
+                <t hangText="Producer:">
+		<vspace/>
+                A producer is a thing which can generate a valid TAP document. 
+                </t>
+
+                <t hangText="Consumer:">
+		<vspace/>
+                A consumer is a thing which can parse and interpret a TAP document. 
+                </t>
+
+                <t hangText="Filter:">
+		<vspace/>
+                A filter a piece of software which consumes a TAP document, and 
+                produces a new TAP document based in some way on the TAP input. 
+                For example, it can reproduce the TAP document exactly, normalize 
+                the formatting, combine multiple documents, or summarize the 
+                result of tests as a new TAP document.
+                </t>
+            </list> 
+            </t>
+        </section>
+
+        <section title="Producers and consumers">
+            <t>TBD</t>
+        </section>
+
+        <section title="Security Considerations">
+        <t>None.</t>
+        </section>
+    </middle>
+
+    <back>
+        <references title='Normative References'>
+            &rfc2119;
+            &rfc5234;
+        </references>
+    </back>
+
+</rfc>
