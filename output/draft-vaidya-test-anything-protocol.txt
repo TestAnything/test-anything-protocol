@@ -77,10 +77,10 @@ Table of Contents
      1.1.  Requirements notation  . . . . . . . . . . . . . . . . . .  3
    2.  Definitions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
    3.  Producers and consumers  . . . . . . . . . . . . . . . . . . .  6
-   4.  Security Considerations  . . . . . . . . . . . . . . . . . . .  7
-   5.  Normative References . . . . . . . . . . . . . . . . . . . . .  8
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . .  9
-   Intellectual Property and Copyright Statements . . . . . . . . . . 10
+   4.  Security Considerations  . . . . . . . . . . . . . . . . . . .  8
+   5.  Normative References . . . . . . . . . . . . . . . . . . . . .  9
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 10
+   Intellectual Property and Copyright Statements . . . . . . . . . . 11
 
 
 
@@ -126,8 +126,7 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    manually; this is useful for quickly determining whether individual
    tests pass and to aid in debugging the test system itself.
 
-   TAP has been in use since 1987 by Perl.  The format is very stable,
-   and capable of providing data on failed tests to help in debugging.
+   TAP has been used by the Perl interpreter's test suite since 1987.
 
 1.1.  Requirements notation
 
@@ -137,6 +136,7 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
    The grammatical rules in this document are following ABNF and are to
    be interpreted as described in [RFC5234].
+
 
 
 
@@ -283,56 +283,112 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 3.  Producers and consumers
 
-   TBD
+   A TAP document might exist as a file, data stream, encoded in another
+   medium (stored in a PDF file, for instance) or in any other form
+   which can be parsed as described below.  For maximum compatibility,
+   it may be produced by any TAP producer, and must then be consumable
+   by any TAP consumer.
 
+   One example system of producers and consumers is the Test::More/
+   Test::Harness system in Perl testing.  In this system, test producers
+   are executable Perl scripts with a '.t' extension, collected in a
+   number of folders, which themselves use the Test::More library to
+   simplify testing.  These scripts can be executed individually, and
+   emit TAP documents on standard output.
 
+   A TAP consumer, such as the Perl module TAP::Parser, can interpret
+   the output of a TAP producer to determine how many tests were run,
+   which tests succeeded, and which diagnostic information might be
+   usefully reported to the user.
 
+   Note that these two processes are often decoupled.  The TAP document
+   emitted by the TAP producer can be stored before being interpreted by
+   the TAP parser; this allows all diagnostic and testing information to
+   be stored for later analysis and usage.  The TAP document might be
+   generated on one server, then downloaded to another before being
+   processed.  A single TAP parser can be used to process files in all
+   these cases, illustrating TAP's utility as a cross-language, cross-
+   environment tool.
 
+   The complete flow in this system can look something like this:
 
+    ------------
+    | Producer |
+    ------------
+        |
+        V
+    ----------------        -----------           --------------------
+    | TAP document | --+--> | Storage |      +--> | Formatted Output |
+    ----------------   |    -----------      |    --------------------
+                       |         |           |
+                       |         V           |
+                       |    --------------   |    --------------------
+                       +--> | TAP parser |---+--> | Test summaries   |
+                            --------------        --------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   Additionally, utilities like "prove" can further simplify running a
+   suite of TAP producers, by searching for files having certain
+   characteristics or matching particular patterns.  For instance,
 
 
 
 Vaidya & Schwern           Expires May 1, 2010                  [Page 6]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
+   conventionally, all tests for a Perl module are stored in the 't/'
+   folder, and consist of executable scripts (TAP producers) with
+   extensions of 't'.  The "prove" utility, part of the Test::Harness
+   module, can then be used to find these files and run them all.  In
+   the following example, prove executes t/error.t, t/id.t and t/url.t
+   and evaluates the produced TAP documents in turn, checking which ones
+   passed and failed, and providing a complete summary of the entire
+   test suite run.
+
+   $ prove t/*.t
+   t/error.t...ok
+   t/id.t......ok
+   t/url.t.....ok
+   Result: PASS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 1, 2010                  [Page 7]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -388,7 +444,7 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 
-Vaidya & Schwern           Expires May 1, 2010                  [Page 7]
+Vaidya & Schwern           Expires May 1, 2010                  [Page 8]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -444,7 +500,7 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 
-Vaidya & Schwern           Expires May 1, 2010                  [Page 8]
+Vaidya & Schwern           Expires May 1, 2010                  [Page 9]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -500,7 +556,7 @@ Authors' Addresses
 
 
 
-Vaidya & Schwern           Expires May 1, 2010                  [Page 9]
+Vaidya & Schwern           Expires May 1, 2010                 [Page 10]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -556,5 +612,5 @@ Intellectual Property
 
 
 
-Vaidya & Schwern           Expires May 1, 2010                 [Page 10]
+Vaidya & Schwern           Expires May 1, 2010                 [Page 11]
 
