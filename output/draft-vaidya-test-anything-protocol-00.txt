@@ -35,6 +35,28 @@ Status of this Memo
 
    This Internet-Draft will expire on May 2, 2010.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 1]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
 Abstract
 
    The Test Anything Protocol (TAP) is a protocol to allow communication
@@ -49,54 +71,32 @@ Abstract
    This specification defines TAP version 13.
 
 
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 1]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
-
 Table of Contents
 
    1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
      1.1.  Requirements notation  . . . . . . . . . . . . . . . . . .  3
-   2.  Definitions  . . . . . . . . . . . . . . . . . . . . . . . . .  3
-   3.  Producers and consumers  . . . . . . . . . . . . . . . . . . .  4
-   4.  The Structure of a TAP document  . . . . . . . . . . . . . . .  6
-     4.1.  Version  . . . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.2.  Plan . . . . . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.3.  Test results . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.4.  Bail Out . . . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.5.  Comments . . . . . . . . . . . . . . . . . . . . . . . . .  7
-     4.6.  Ignored elements . . . . . . . . . . . . . . . . . . . . .  7
-   5.  Grammar  . . . . . . . . . . . . . . . . . . . . . . . . . . .  7
-   6.  Passing and Failing  . . . . . . . . . . . . . . . . . . . . .  9
-     6.1.  Test results . . . . . . . . . . . . . . . . . . . . . . .  9
-     6.2.  The "SKIP" directive . . . . . . . . . . . . . . . . . . . 10
-     6.3.  The "TODO" directive . . . . . . . . . . . . . . . . . . . 10
-     6.4.  Plan . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
-     6.5.  Other factors  . . . . . . . . . . . . . . . . . . . . . . 11
-   7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 11
-   8.  IANA considerations  . . . . . . . . . . . . . . . . . . . . . 12
-   9.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 12
-   10. Normative References . . . . . . . . . . . . . . . . . . . . . 12
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
-   Intellectual Property and Copyright Statements . . . . . . . . . . 13
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   2.  Definitions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Producers and consumers  . . . . . . . . . . . . . . . . . . .  6
+   4.  The Structure of a TAP document  . . . . . . . . . . . . . . .  8
+     4.1.  Version  . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     4.2.  Plan . . . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     4.3.  Test results . . . . . . . . . . . . . . . . . . . . . . .  8
+     4.4.  Bail Out . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     4.5.  Comments . . . . . . . . . . . . . . . . . . . . . . . . .  9
+     4.6.  Ignored elements . . . . . . . . . . . . . . . . . . . . .  9
+   5.  Grammar  . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+   6.  Passing and Failing  . . . . . . . . . . . . . . . . . . . . . 12
+     6.1.  Test results . . . . . . . . . . . . . . . . . . . . . . . 12
+     6.2.  The "SKIP" directive . . . . . . . . . . . . . . . . . . . 12
+     6.3.  The "TODO" directive . . . . . . . . . . . . . . . . . . . 12
+     6.4.  Plan . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+     6.5.  Other factors  . . . . . . . . . . . . . . . . . . . . . . 13
+   7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 15
+   8.  IANA considerations  . . . . . . . . . . . . . . . . . . . . . 16
+   9.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 17
+   10. Normative References . . . . . . . . . . . . . . . . . . . . . 18
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 19
+   Intellectual Property and Copyright Statements . . . . . . . . . . 20
 
 
 
@@ -138,6 +138,37 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    be interpreted as described in [RFC5234].
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 3]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
 2.  Definitions
 
    Test:
@@ -160,14 +191,6 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
          document.  Future expansion may allow multiple test sets to be
          contained in a single TAP document, allowing an entire test
          suite to be stored as a single TAP document.
-
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 3]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
 
    Plan:
          The number of tests which are expected to pass in a single test
@@ -192,12 +215,70 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
          A consumer is a thing which can parse and interpret a TAP
          document.
 
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 4]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
    Filter:
          A filter a piece of software which consumes a TAP document, and
          produces a new TAP document based in some way on the TAP input.
          For example, it can reproduce the TAP document exactly,
          normalize the formatting, combine multiple documents, or
          summarize the result of tests as a new TAP document.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 5]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 3.  Producers and consumers
@@ -217,14 +298,6 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
    A TAP consumer, such as the Perl module TAP::Parser, can interpret
    the output of a TAP producer to determine how many tests were run,
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 4]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
-
    which tests succeeded, and which diagnostic information might be
    usefully reported to the user.
 
@@ -256,6 +329,14 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    Additionally, utilities like "prove" can further simplify running a
    suite of TAP producers, by searching for files having certain
    characteristics or matching particular patterns.  For instance,
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 6]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
    conventionally, all tests for a Perl module are stored in the 't/'
    folder, and consist of executable scripts (TAP producers) with
    extensions of 't'.  The "prove" utility, part of the Test::Harness
@@ -276,7 +357,38 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 
-Vaidya & Schwern           Expires May 2, 2010                  [Page 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 7]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -332,7 +444,7 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 
-Vaidya & Schwern           Expires May 2, 2010                  [Page 6]
+Vaidya & Schwern           Expires May 2, 2010                  [Page 8]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -376,22 +488,27 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    directive.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                  [Page 9]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
 5.  Grammar
 
    The test set is defined below using Augmented Backus-Naur Form
    (ABNF), as defined in [RFC5234].
-
-
-
-
-
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 7]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
 
    ; Overall structure
    Testset         = Header (Plan Body / Body Plan) Footer
@@ -436,18 +553,15 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
    A document must parse as per the grammar above to qualify as a TAP
    document.  The grammar presented below may be used by TAP consumers
-   to ensure that a test set contains all the required parts.
 
 
 
-
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 8]
+Vaidya & Schwern           Expires May 2, 2010                 [Page 10]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
+
+   to ensure that a test set contains all the required parts.
 
    ; Overall structure
    Passing-Testset = Header
@@ -482,6 +596,27 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    SKIP-Directive  = "# SKIP" [SP Reason]
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 11]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
 6.  Passing and Failing
 
    Both test sets and test results can be determined to have passed or
@@ -497,20 +632,13 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    below.  The table below summarises how directives can change a test
    result.
 
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                  [Page 9]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
-
    +--------+------------+---------------------------+-----------------+
    |        |     No     |            TODO           |       SKIP      |
    |        | directives |                           |                 |
    +--------+------------+---------------------------+-----------------+
    | ok     |    pass    |            pass           |       pass      |
    |        |            | (optionally with warning) |                 |
+   |        |            |                           |                 |
    | not ok |    fail    |            pass           |       fail      |
    |        |            |                           |  (with warning) |
    +--------+------------+---------------------------+-----------------+
@@ -537,6 +665,14 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    implemented or is obstructed by a known bug.
 
    Neither a failing nor a passing TODO test will cause the test set to
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 12]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
    fail, but since passing TODOs are suspicious, they may optionally be
    reported by TAP consumers.
 
@@ -551,15 +687,6 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
        must contain exactly the number of test results indicated in the
        plan, in ascending numeric order, without either any gaps in test
        number or any duplicate tests.  Every test result must pass.
-
-
-
-
-
-Vaidya & Schwern           Expires May 2, 2010                 [Page 10]
-
-Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
 
    2.  A skip-all plan: the number of expected tests is zero.  A test
        set with a skip-all plan passes unless it contains any test
@@ -594,8 +721,68 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    unpragmatic to ignore such exit codes, but this information cannot be
    reliably expressed into its own TAP output by a failing producer, and
    must be treated separately.  This also allows for language-specific
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 13]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
    and system-specific features to be used by the TAP consumer at its
    discretion to improve the rigour of its testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 14]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 7.  Security Considerations
@@ -609,22 +796,105 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    ok 2
    ok 123456789
 
+   The above test result would cause an array of 123456789 elements to
+   be allocated.  So it is recommended that test results, if stored at
+   all, are stored in a sparse array.
 
 
 
-Vaidya & Schwern           Expires May 2, 2010                 [Page 11]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 15]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
-
-
-   Would cause an array of 123456789 elements to be allocated.  So it is
-   recommended that test results, if stored at all, are stored in a
-   sparse array.
 
 
 8.  IANA considerations
 
    TBD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 16]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 9.  Acknowledgements
@@ -637,6 +907,52 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
    modifications to the Test::Harness module.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 17]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
+
+
 10.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -644,6 +960,53 @@ Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 18]
+
+Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
 
 Authors' Addresses
@@ -668,7 +1031,36 @@ Authors' Addresses
 
 
 
-Vaidya & Schwern           Expires May 2, 2010                 [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vaidya & Schwern           Expires May 2, 2010                 [Page 19]
 
 Internet-Draft      The Test Anything Protocol (TAP)        October 2009
 
@@ -724,5 +1116,5 @@ Intellectual Property
 
 
 
-Vaidya & Schwern           Expires May 2, 2010                 [Page 13]
+Vaidya & Schwern           Expires May 2, 2010                 [Page 20]
 
