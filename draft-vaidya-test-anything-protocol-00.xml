@@ -35,13 +35,14 @@
         <date/>
         <abstract>
             <t>
-            The Test Anything Protocol (TAP) is a protocol to allow communication 
-            between unit tests and a test harness. It allows individual tests (TAP 
-            producers) to communicate test results to the testing harness in a 
-            language-agnostic way. Tests can indicate success, failure, as well 
-            as mark tests as unimplemented or skipped, and to provide additional 
-            information to aid in debugging of failed tests. Unlike other testing 
-            systems, it can indicate missing tests and duplicated tests. 
+            The Test Anything Protocol (TAP) is a protocol to allow
+            communication between unit tests and a test harness. It allows
+            individual tests (TAP producers) to communicate test results to the
+            testing harness in a language-agnostic way. Tests can indicate
+            success, failure, as well as mark tests as unimplemented or
+            skipped, and to provide additional information to aid in debugging
+            of failed tests. Unlike other testing systems, it can indicate
+            missing tests and duplicated tests. 
             </t>
 
             <t>
@@ -53,16 +54,17 @@
     <middle>
         <section title="Introduction">
             <t>
-            The Test Anything Protocol (TAP) describes a standard format for testing
-            suites to use. This format provides both human and machine-readable 
-            information on which tests were run, whether they were successful or 
-            failed, as well as other information which might be useful in tracing 
-            the cause of the failure. Being machine-readable allows this information 
-            to be easily parsed by an automated testing harness. Test results may 
-            then be summarized and analyzed. Being human-readable allows the results 
-            of a testing system to be read manually; this is useful for quickly 
-            determining whether individual tests pass and to aid in debugging the 
-            test system itself. 
+            The Test Anything Protocol (TAP) describes a standard format for
+            testing suites to use. This format provides both human and
+            machine-readable information on which tests were run, whether they
+            were successful or failed, as well as other information which might
+            be useful in tracing the cause of the failure. Being
+            machine-readable allows this information to be easily parsed by an
+            automated testing harness. Test results may then be summarized and
+            analyzed. Being human-readable allows the results of a testing
+            system to be read manually; this is useful for quickly determining
+            whether individual tests pass and to aid in debugging the test
+            system itself. 
             </t>
 
             <t>
@@ -76,8 +78,8 @@
                 described in <xref target="RFC2119"/>.</t>
 
                 <t>
-                The grammatical rules in this document are following ABNF and are to be 
-                interpreted as described in <xref target="RFC5234"/>.
+                The grammatical rules in this document are following ABNF and
+                are to be interpreted as described in <xref target="RFC5234"/>.
                 </t>
             </section>
         </section>
@@ -93,13 +95,13 @@
 
                 <t hangText="Test result:">
 		<vspace/>
-                The encoding in TAP of the result of a single test. It may have 
+                The encoding in TAP of the result of a single test. It may have
                 exactly one TAP result directive. 
                 </t>
 
                 <t hangText="Test set:">
 		<vspace/>
-                Zero or more test results with exactly one plan. A test set can 
+                Zero or more test results with exactly one plan. A test set can
                 be determined to have failed or passed. 
                 </t>
 
@@ -110,22 +112,24 @@
 
                 <t hangText="TAP document:">
 		<vspace/>
-                One test set which parses correctly as defined in this document. 
-                Future expansion may allow multiple test sets to be contained 
-                in a single TAP document, allowing an entire test suite to be 
-                stored as a single TAP document. 
+                One test set which parses correctly as defined in this
+                document.  Future expansion may allow multiple test sets to be
+                contained in a single TAP document, allowing an entire test
+                suite to be stored as a single TAP document. 
                 </t>
 
                 <t hangText="Plan:">
 		<vspace/>
-                The number of tests which are expected to pass in a single test set. 
+                The number of tests which are expected to pass in a single test
+                set. 
                 </t>
 
                 <t hangText="Directive:">
 		<vspace/>
-                A directive changes the meaning of a test result; it is commonly used 
-                to indicate that a failing test should be reported as passing (TODO) 
-                or that a passing test should be tagged as suspicious (SKIP). 
+                A directive changes the meaning of a test result; it is
+                commonly used to indicate that a failing test should be
+                reported as passing (TODO) or that a passing test should be
+                tagged as suspicious (SKIP). 
                 </t>
 
                 <t hangText="Reason:">
@@ -145,16 +149,17 @@
 
                 <t hangText="Consumer:">
 		<vspace/>
-                A consumer is a thing which can parse and interpret a TAP document. 
+                A consumer is a thing which can parse and interpret a TAP
+                document. 
                 </t>
 
                 <t hangText="Filter:">
 		<vspace/>
-                A filter a piece of software which consumes a TAP document, and 
-                produces a new TAP document based in some way on the TAP input. 
-                For example, it can reproduce the TAP document exactly, normalize 
-                the formatting, combine multiple documents, or summarize the 
-                result of tests as a new TAP document.
+                A filter a piece of software which consumes a TAP document, and
+                produces a new TAP document based in some way on the TAP input.
+                For example, it can reproduce the TAP document exactly,
+                normalize the formatting, combine multiple documents, or
+                summarize the result of tests as a new TAP document.
                 </t>
             </list> 
             </t>
@@ -162,19 +167,38 @@
 
         <section title="Producers and consumers">
             <t>
-            A TAP document might exist as a file, data stream, encoded in another medium (stored in a PDF file, for instance) or in any other form which can be parsed as described below. For maximum compatibility, it may be produced by any TAP producer, and must then be consumable by any TAP consumer. 
+            A TAP document might exist as a file, data stream, encoded in
+            another medium (stored in a PDF file, for instance) or in any other
+            form which can be parsed as described below. For maximum
+            compatibility, it may be produced by any TAP producer, and must
+            then be consumable by any TAP consumer. 
             </t>
 
             <t>
-            One example system of producers and consumers is the Test::More/Test::Harness system in Perl testing. In this system, test producers are executable Perl scripts with a '.t' extension, collected in a number of folders, which themselves use the Test::More library to simplify testing. These scripts can be executed individually, and emit TAP documents on standard output. 
+            One example system of producers and consumers is the
+            Test::More/Test::Harness system in Perl testing. In this system,
+            test producers are executable Perl scripts with a '.t' extension,
+            collected in a number of folders, which themselves use the
+            Test::More library to simplify testing. These scripts can be
+            executed individually, and emit TAP documents on standard output. 
             </t>
 
             <t>
-            A TAP consumer, such as the Perl module TAP::Parser, can interpret the output of a TAP producer to determine how many tests were run, which tests succeeded, and which diagnostic information might be usefully reported to the user. 
+            A TAP consumer, such as the Perl module TAP::Parser, can interpret
+            the output of a TAP producer to determine how many tests were run,
+            which tests succeeded, and which diagnostic information might be
+            usefully reported to the user. 
             </t>
 
             <t>
-            Note that these two processes are often decoupled. The TAP document emitted by the TAP producer can be stored before being interpreted by the TAP parser; this allows all diagnostic and testing information to be stored for later analysis and usage. The TAP document might be generated on one server, then downloaded to another before being processed. A single TAP parser can be used to process files in all these cases, illustrating TAP's utility as a cross-language, cross-environment tool. 
+            Note that these two processes are often decoupled. The TAP document
+            emitted by the TAP producer can be stored before being interpreted
+            by the TAP parser; this allows all diagnostic and testing
+            information to be stored for later analysis and usage. The TAP
+            document might be generated on one server, then downloaded to
+            another before being processed. A single TAP parser can be used to
+            process files in all these cases, illustrating TAP's utility as a
+            cross-language, cross-environment tool. 
             </t>
 
             <t>
@@ -200,7 +224,17 @@
             </figure>
 
             <t>
-            Additionally, utilities like "prove" can further simplify running a suite of TAP producers, by searching for files having certain characteristics or matching particular patterns. For instance, conventionally, all tests for a Perl module are stored in the 't/' folder, and consist of executable scripts (TAP producers) with extensions of 't'. The "prove" utility, part of the Test::Harness module, can then be used to find these files and run them all. In the following example, prove executes t/error.t, t/id.t and t/url.t and evaluates the produced TAP documents in turn, checking which ones passed and failed, and providing a complete summary of the entire test suite run.
+            Additionally, utilities like "prove" can further simplify running a
+            suite of TAP producers, by searching for files having certain
+            characteristics or matching particular patterns. For instance,
+            conventionally, all tests for a Perl module are stored in the 't/'
+            folder, and consist of executable scripts (TAP producers) with
+            extensions of 't'. The "prove" utility, part of the Test::Harness
+            module, can then be used to find these files and run them all. In
+            the following example, prove executes t/error.t, t/id.t and t/url.t
+            and evaluates the produced TAP documents in turn, checking which
+            ones passed and failed, and providing a complete summary of the
+            entire test suite run.
             </t>
 
             <figure><artwork><![CDATA[
@@ -214,70 +248,124 @@ Result: PASS
 
         <section title="The Structure of a TAP document">
             <t>
-            A TAP test set consists of one version, one plan, zero or more test results, and any number of comments and ignored elements. A TAP test set is split into lines, separated by newline characters. Any line beginning with the letters 'ok' or 'not ok' is a test result. All unparsable lines must be ignored by TAP consumers. In order to keep TAP readable on the system on which it is produced, the end-of-line character for TAP may be LF or CRLF. The same end-of-line character must be used throughout a document. 
+            A TAP test set consists of one version, one plan, zero or more test
+            results, and any number of comments and ignored elements. A TAP
+            test set is split into lines, separated by newline characters. Any
+            line beginning with the letters 'ok' or 'not ok' is a test result.
+            All unparsable lines must be ignored by TAP consumers. In order to
+            keep TAP readable on the system on which it is produced, the
+            end-of-line character for TAP may be LF or CRLF. The same
+            end-of-line character must be used throughout a document. 
             </t>
 
             <!--
-            (Alternative suggestion is to just use CRLF or LF and pretend there's a pre-processor which normalizes newlines. Apparently this is what XML does). 
+            (Alternative suggestion is to just use CRLF or LF and pretend
+            there's a pre-processor which normalizes newlines. Apparently this
+            is what XML does). 
 
-            http://www.w3.org/TR/REC-xml/ "2.11 End-of-Line Handling XML parsed entities are often stored in computer files which, for editing convenience, are organized into lines. These lines are typically separated by some combination of the characters CARRIAGE RETURN (#xD) and LINE FEED (#xA). To simplify the tasks of applications, the XML processor MUST behave as if it normalized all line breaks in external parsed entities (including the document entity) on input, before parsing, by translating both the two-character sequence #xD #xA and any #xD that is not followed by #xA to a single #xA character." 
+            http://www.w3.org/TR/REC-xml/ "2.11 End-of-Line Handling XML parsed
+            entities are often stored in computer files which, for editing
+            convenience, are organized into lines. These lines are typically
+            separated by some combination of the characters CARRIAGE RETURN
+            (#xD) and LINE FEED (#xA). To simplify the tasks of applications,
+            the XML processor MUST behave as if it normalized all line breaks
+            in external parsed entities (including the document entity) on
+            input, before parsing, by translating both the two-character
+            sequence #xD #xA and any #xD that is not followed by #xA to a
+            single #xA character." 
             -->
 
             <t>
-            Free-form strings in TAP, such as reasons and descriptions, must be in UTF8 unless the interchange parties agree otherwise. Strings MUST NOT contain an EOL or NUL character. Since directives start with a "#" and come after a description, descriptions MUST NOT contain a "#". 
+            Free-form strings in TAP, such as reasons and descriptions, must be
+            in UTF8 unless the interchange parties agree otherwise. Strings
+            MUST NOT contain an EOL or NUL character. Since directives start
+            with a "#" and come after a description, descriptions MUST NOT
+            contain a "#". 
             </t>
 
             <!--
-            Rationale: This is expressed in the grammar below as a Safe-String without "#" and a more general String with "#". 
-            But we need an escape system to have a # 
-            This whole section is repeating the grammar but leaving out important details.
+            Rationale: This is expressed in the grammar below as a Safe-String
+            without "#" and a more general String with "#".  But we need an
+            escape system to have a # This whole section is repeating the
+            grammar but leaving out important details.
             -->
 
             <section title="Version">
                 <t>
-                    Every test set as defined in this document should contain a version definition. A test set without a version definition is assumed to be written in TAP version 12, which is not covered by this document.
+                    Every test set as defined in this document should contain a
+                    version definition. A test set without a version definition
+                    is assumed to be written in TAP version 12, which is not
+                    covered by this document.
                 </t>
             </section>
 
             <section title="Plan">
                 <t>
-                    Every test set should contain one and only one plan. A test set containing multiple plans can be parsed as a TAP document, but will be judged to have failed.
+                    Every test set should contain one and only one plan. A test
+                    set containing multiple plans can be parsed as a TAP
+                    document, but will be judged to have failed.
                 </t>
             </section>
 
             <section title="Test results">
                 <t>
-                    A test result reports the status of one single test. The test must summarize itself as passing ("ok") or failing ("not ok"), and must have a test number. A test result without an explicit test number will be assumed to have the next number in increasing numeric sequence from the start of the test set. A test result can also have a description and a directive, which modifies the meaning of the test, but both are optional.
+                    A test result reports the status of one single test. The
+                    test must summarize itself as passing ("ok") or failing
+                    ("not ok"), and must have a test number. A test result
+                    without an explicit test number will be assumed to have the
+                    next number in increasing numeric sequence from the start
+                    of the test set. A test result can also have a description
+                    and a directive, which modifies the meaning of the test,
+                    but both are optional.
                 </t>
 
                 <t>
-                     Test results must be present in the correct order, without missing tests or duplicate test numbers, for the test set to be judged to pass.
+                     Test results must be present in the correct order, without
+                     missing tests or duplicate test numbers, for the test set
+                     to be judged to pass.
                 </t>
             </section>
 
             <section title="Bail Out">
                 <t>
-                    A Bail-Out line indicates a gross failure in the TAP producer. Results from this test set can no longer be trusted. The TAP consumer should ignore the rest of the TAP syntax and may terminate the TAP producer if it can do so safely. If processing multiple files, the TAP consumer should stop processing other files which are part of the same test suite.
+                    A Bail-Out line indicates a gross failure in the TAP
+                    producer. Results from this test set can no longer be
+                    trusted. The TAP consumer should ignore the rest of the TAP
+                    syntax and may terminate the TAP producer if it can do so
+                    safely. If processing multiple files, the TAP consumer
+                    should stop processing other files which are part of the
+                    same test suite.
                 </t>
             </section>
 
             <section title="Comments">
                 <t>
-                    Comments are lines which have no meaning in TAP. They do not alter the result of a test. A TAP document with and without comments has exactly the same meaning.
+                    Comments are lines which have no meaning in TAP. They do
+                    not alter the result of a test. A TAP document with and
+                    without comments has exactly the same meaning.
                 </t>
 
                 <t>
-                    Comments typically contain debugging information. TAP consumers should not display comments by default, as there will likely be a large number of tests in such a suite.
+                    Comments typically contain debugging information. TAP
+                    consumers should not display comments by default, as there
+                    will likely be a large number of tests in such a suite.
                 </t>
 
                 <t>
-                    Note that TAP does not provide a mechanism for comments to be associated with particular test results; for instance, comments of a general nature might be interspersed with comments specific to a particular test.
+                    Note that TAP does not provide a mechanism for comments to
+                    be associated with particular test results; for instance,
+                    comments of a general nature might be interspersed with
+                    comments specific to a particular test.
                 </t>
             </section>
 
             <section title="Ignored elements">
                 <t>
-                    In order to allow extension of the protocol while maintaining backwards compatibility, a TAP consumer must ignore certain lines and elements. Any line which does not parse must be ignored. Any directive or plan-directive which is not recognized must also be ignored.
+                    In order to allow extension of the protocol while
+                    maintaining backwards compatibility, a TAP consumer must
+                    ignore certain lines and elements. Any line which does not
+                    parse must be ignored. Any directive or plan-directive
+                    which is not recognized must also be ignored.
                 </t>
 
                 <t>
@@ -292,14 +380,17 @@ ok 2 # BANG         # Line 4
 ]]></artwork></figure>
 
                 <t>
-                    Line 2 should be ignored, it does not parse. The directive "BANG" on test #2 should be treated as an ordinary comment, it is not a TAP directive.
+                    Line 2 should be ignored, it does not parse. The directive
+                    "BANG" on test #2 should be treated as an ordinary comment,
+                    it is not a TAP directive.
                 </t>
             </section>
         </section>
 
         <section title="Grammar">
             <t>
-            The test set is defined below using Augmented Backus-Naur Form (ABNF), as defined in <xref target="RFC5234"/>.
+            The test set is defined below using Augmented Backus-Naur Form
+            (ABNF), as defined in <xref target="RFC5234"/>.
             </t>
 
             <figure><artwork><![CDATA[
@@ -346,7 +437,9 @@ Positive-Integer =
 ]]></artwork></figure>
 
         <t>
-            A document must parse as per the grammar above to qualify as a TAP document. The grammar presented below may be used by TAP consumers to ensure that a test set contains all the required parts.
+            A document must parse as per the grammar above to qualify as a TAP
+            document. The grammar presented below may be used by TAP consumers
+            to ensure that a test set contains all the required parts.
         </t>
 
         <figure><artwork><![CDATA[
@@ -387,12 +480,20 @@ SKIP-Directive  = "# SKIP" [SP Reason]
 
         <section title="Passing and Failing">
             <t>
-                Both test sets and test results can be determined to have passed or failed as detailed below. Note that a test set might fail even if every single test result contained in it passes.
+                Both test sets and test results can be determined to have
+                passed or failed as detailed below. Note that a test set might
+                fail even if every single test result contained in it passes.
             </t>
 
             <section title="Test results">
                 <t>
-                    A test result indicates whether the test it reports has passed ("ok") or failed ("not ok"). It is itself said to pass or fail, depending on the result of the underlying test and on any directives applied to that result. It can be modified with any of the directives listed below. The table below summarises how directives can change a test result.
+                    A test result indicates whether the test it reports has
+                    passed ("ok") or failed ("not ok"). It is itself said to
+                    pass or fail, depending on the result of the underlying
+                    test and on any directives applied to that result. It can
+                    be modified with any of the directives listed below. The
+                    table below summarises how directives can change a test
+                    result.
                 </t>
 
                 <texttable title="Test results as modified by directives">
@@ -413,61 +514,115 @@ SKIP-Directive  = "# SKIP" [SP Reason]
 
             <section title="The &quot;SKIP&quot; directive">
                 <t>
-                This directive indicates that the test was not begun. Usually this is caused by environmental reasons: a missing optional library, an operating specific test, or an expensive test that is only run on request. 
+                This directive indicates that the test was not begun. Usually
+                this is caused by environmental reasons: a missing optional
+                library, an operating specific test, or an expensive test that
+                is only run on request. 
                 </t>
 
                 <t>
-                Since the test was skipped, the test result is expected to be "ok" (indicating that the test was skipped correctly). A skipped test with a result of "not ok" is suspicious, and the TAP consumer should report a warning.
+                Since the test was skipped, the test result is expected to be
+                "ok" (indicating that the test was skipped correctly). A
+                skipped test with a result of "not ok" is suspicious, and the
+                TAP consumer should report a warning.
                 </t>
             </section>
 
             <section title="The &quot;TODO&quot; directive">
                 <t>
-                This directive indicates that the test was run, but failure is expected and should not cause the test set to fail. This is usually because the functionality being tested has not been completely implemented or is obstructed by a known bug. 
+                This directive indicates that the test was run, but failure is
+                expected and should not cause the test set to fail. This is
+                usually because the functionality being tested has not been
+                completely implemented or is obstructed by a known bug. 
                 </t>
 
                 <t>
-                Neither a failing nor a passing TODO test will cause the test set to fail, but since passing TODOs are suspicious, they may optionally be reported by TAP consumers.
+                Neither a failing nor a passing TODO test will cause the test
+                set to fail, but since passing TODOs are suspicious, they may
+                optionally be reported by TAP consumers.
                 </t>
 
                 <!--
-                    Rationale: In other testing systems, failing tests which cannot be immediately fixed are commented out. In TAP, todo tests allow one to write tests for bugs or missing features and leave them running. In this way, a todo test becomes an executable bug tracker. Known, unresolved issues are silently ignored, leaving the test suite to pass. If an issue is resolved and a test starts to pass, the parser warns the developer about the passing todo test and they can take action.
+                    Rationale: In other testing systems, failing tests which
+                    cannot be immediately fixed are commented out. In TAP, todo
+                    tests allow one to write tests for bugs or missing features
+                    and leave them running. In this way, a todo test becomes an
+                    executable bug tracker. Known, unresolved issues are
+                    silently ignored, leaving the test suite to pass. If an
+                    issue is resolved and a test starts to pass, the parser
+                    warns the developer about the passing todo test and they
+                    can take action.
                 -->
             </section>
 
             <section title="Plan">
                 <t>
-                The plan indicates the number of tests which are expected to be run in the current test set. Two types of plans are defined, with different requirements for passing: 
+                The plan indicates the number of tests which are expected to be
+                run in the current test set. Two types of plans are defined,
+                with different requirements for passing: 
                 </t>
 
                 <t>
                 <list style="numbers">
                     <t>
-                    A simple plan: the number of expected tests must be a positive integer. In order for a test set with a simple plan to pass, it must contain exactly the number of test results indicated in the plan, in ascending numeric order, without either any gaps in test number or any duplicate tests. Every test result must pass. 
+                    A simple plan: the number of expected tests must be a
+                    positive integer. In order for a test set with a simple
+                    plan to pass, it must contain exactly the number of test
+                    results indicated in the plan, in ascending numeric order,
+                    without either any gaps in test number or any duplicate
+                    tests. Every test result must pass. 
                     </t>
                     
                     <t>
-                    A skip-all plan: the number of expected tests is zero. A test set with a skip-all plan passes unless it contains any test results. 
+                    A skip-all plan: the number of expected tests is zero. A
+                    test set with a skip-all plan passes unless it contains any
+                    test results. 
                     </t>
                 </list>
                 </t>
 
                 <t>
-                Allowing simple plans to plan for zero tests is being considered, but is not a part of this specification.
+                Allowing simple plans to plan for zero tests is being
+                considered, but is not a part of this specification.
                 </t>
             </section>
 
             <section title="Other factors">
                 <t>
-                TAP consumers may use any other system-specific factors to determine whether a test set passes or fails. If such a failure is to be reported, it MUST inform the user of the state of the TAP parsing and whether all tests appear to have passed, and then must separately describe the nature of the system-specific failure which caused the consumer to become suspicious of the results. 
+                TAP consumers may use any other system-specific factors to
+                determine whether a test set passes or fails. If such a failure
+                is to be reported, it MUST inform the user of the state of the
+                TAP parsing and whether all tests appear to have passed, and
+                then must separately describe the nature of the system-specific
+                failure which caused the consumer to become suspicious of the
+                results. 
                 </t>
 
                 <t>
-                TAP consumers which also act as TAP producers could add additional test results to the end of the output TAP document if such a failure occurs. For instance, take a TAP producer which emits ten successful tests, then throws an exception and exits with a failure. A filter might add a new (11th) failing ("not ok") test result to the end of the TAP it emits, which informs the user of the exception or failure exit code. Note that such a test result would cause the test set to fail; unless the test set planned one more test than it emitted, the number of tests would not equal the number of tests planned; even if it did this, this 11th failing test would cause the test set to fail. 
+                TAP consumers which also act as TAP producers could add
+                additional test results to the end of the output TAP document
+                if such a failure occurs. For instance, take a TAP producer
+                    which emits ten successful tests, then throws an exception
+                    and exits with a failure. A filter might add a new (11th)
+                    failing ("not ok") test result to the end of the TAP it
+                    emits, which informs the user of the exception or failure
+                    exit code. Note that such a test result would cause the
+                    test set to fail; unless the test set planned one more test
+                    than it emitted, the number of tests would not equal the
+                    number of tests planned; even if it did this, this 11th
+                    failing test would cause the test set to fail. 
                 </t>
 
                 <t>
-                An example of the use of this option is to check exit codes of TAP producers for a failure, which might indicate that the producer failed after having emitted a complete TAP document. It seems unpragmatic to ignore such exit codes, but this information cannot be reliably expressed into its own TAP output by a failing producer, and must be treated separately. This also allows for language-specific and system-specific features to be used by the TAP consumer at its discretion to improve the rigour of its testing.
+                An example of the use of this option is to check exit codes of
+                TAP producers for a failure, which might indicate that the
+                producer failed after having emitted a complete TAP document.
+                It seems unpragmatic to ignore such exit codes, but this
+                information cannot be reliably expressed into its own TAP
+                output by a failing producer, and must be treated separately.
+                This also allows for language-specific and system-specific
+                features to be used by the TAP consumer at its discretion to
+                improve the rigour of its testing.
                 </t>
             </section>
         </section>
@@ -479,7 +634,9 @@ SKIP-Directive  = "# SKIP" [SP Reason]
                 Problems with parsing debugging status?
             -->
             <t>
-            A parser which stores test results in a dynamically sized array may be vulnerable to memory starvation by a test which uses a very high test number. For example:
+            A parser which stores test results in a dynamically sized array may
+            be vulnerable to memory starvation by a test which uses a very high
+            test number. For example:
             </t>
 
             <figure><artwork><![CDATA[
@@ -490,7 +647,9 @@ ok 123456789
 ]]></artwork></figure>
 
             <t>
-            Would cause an array of 123456789 elements to be allocated. So it is recommended that test results, if stored at all, are stored in a sparse array.
+            The above test result would cause an array of 123456789 elements to
+            be allocated. So it is recommended that test results, if stored at
+            all, are stored in a sparse array.
             </t>
         </section>
 
@@ -522,7 +681,12 @@ ok 123456789
 
         <section title="Acknowledgements">
             <t>
-            This document is based on Andy Armstrong's description of the TAP protocol, version 13, which is itself based on Andy Lester's description of the TAP protocol, version 1.00. The basis for the TAP format was created by Larry Wall in the original test script for Perl&nbsp;1. Tim Bunce and Andreas Koenig developed it further with their modifications to the Test::Harness module.
+            This document is based on Andy Armstrong's description of the TAP
+            protocol, version 13, which is itself based on Andy Lester's
+            description of the TAP protocol, version 1.00. The basis for the
+            TAP format was created by Larry Wall in the original test script
+            for Perl&nbsp;1. Tim Bunce and Andreas Koenig developed it further
+            with their modifications to the Test::Harness module.
             </t>
         </section>
     </middle>
