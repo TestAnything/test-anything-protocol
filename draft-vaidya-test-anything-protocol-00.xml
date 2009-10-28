@@ -602,15 +602,15 @@ SKIP-Directive  = "# SKIP" [SP Reason]
                 TAP consumers which also act as TAP producers could add
                 additional test results to the end of the output TAP document
                 if such a failure occurs. For instance, take a TAP producer
-                    which emits ten successful tests, then throws an exception
-                    and exits with a failure. A filter might add a new (11th)
-                    failing ("not ok") test result to the end of the TAP it
-                    emits, which informs the user of the exception or failure
-                    exit code. Note that such a test result would cause the
-                    test set to fail; unless the test set planned one more test
-                    than it emitted, the number of tests would not equal the
-                    number of tests planned; even if it did this, this 11th
-                    failing test would cause the test set to fail. 
+                which emits ten successful tests, then throws an exception
+                and exits with a failure. A filter might add a new (11th)
+                failing ("not ok") test result to the end of the TAP it
+                emits, which informs the user of the exception or failure
+                exit code. Note that such a test result would cause the
+                test set to fail; unless the test set planned one more test
+                than it emitted, the number of tests would not equal the
+                number of tests planned; even if it did this, this 11th
+                failing test would cause the test set to fail. 
                 </t>
 
                 <t>
